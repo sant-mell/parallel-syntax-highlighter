@@ -21,7 +21,7 @@ Both versions do the same work, classify every `.py` file with the DFA lexer and
 
 ```mermaid
 flowchart TD
-    A["Directory tree of .py files"] --> B{"Mode"}
+    A["Directory tree of .py files"] --> B["Mode"]
     B -->|sequential| C["secuencial.py: one file at a time"]
     B -->|parallel| D["paralelo.py: multiprocessing.Pool"]
     D --> W1["Worker 1: DFA lexer to HTML"]
