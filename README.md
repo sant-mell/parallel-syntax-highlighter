@@ -21,13 +21,13 @@ Both versions do the same work, classify every `.py` file with the DFA lexer and
 
 ```mermaid
 flowchart TD
-    A[Directory tree of .py files] --> B{Mode}
-    B -->|sequential| C[secuencial.py<br/>one file at a time]
-    B -->|parallel| D[paralelo.py<br/>multiprocessing.Pool]
-    D --> W1[Worker 1<br/>DFA lexer to HTML]
-    D --> W2[Worker 2<br/>DFA lexer to HTML]
-    D --> W3[Worker N<br/>DFA lexer to HTML]
-    C --> H[Highlighted HTML]
+    A["Directory tree of .py files"] --> B{"Mode"}
+    B -->|sequential| C["secuencial.py: one file at a time"]
+    B -->|parallel| D["paralelo.py: multiprocessing.Pool"]
+    D --> W1["Worker 1: DFA lexer to HTML"]
+    D --> W2["Worker 2: DFA lexer to HTML"]
+    D --> W3["Worker N: DFA lexer to HTML"]
+    C --> H["Highlighted HTML"]
     W1 --> H
     W2 --> H
     W3 --> H
@@ -118,9 +118,9 @@ The core is a transition table where each row is a state and each column is a cl
 
 ```mermaid
 flowchart LR
-    S[Start state] -->|read char,<br/>look up its class| N[Next state<br/>from transition table]
+    S["Start state"] -->|read char and class| N["Next state from transition table"]
     N -->|more chars| N
-    N -->|accepting state| E[Emit token,<br/>restart at Start]
+    N -->|accepting state| E["Emit token, restart at start"]
     E --> S
 ```
 
