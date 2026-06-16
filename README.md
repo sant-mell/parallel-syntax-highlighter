@@ -15,6 +15,24 @@ The project is split into the two course deliverables that produced it:
 - It does genuine lexical analysis: integers, decimals and scientific notation, strings, identifiers and keywords, comments, and operators, including the tricky cases like a `#` inside a string or `//` not being a Python comment.
 - The highlighter is parallelized with `multiprocessing.Pool` and measured against a sequential baseline, so the speedup is reported with numbers instead of claimed.
 
+## How it runs in parallel
+
+Both versions do the same work, classify every `.py` file with the DFA lexer and write HTML. The sequential version processes files one by one; the parallel version hands each file to a worker process in a `multiprocessing.Pool`, one task per CPU core.
+
+```mermaid
+flowchart TD
+    A[Directory tree of .py files] --> B{Mode}
+    B -->|sequential| C[secuencial.py<br/>one file at a time]
+    B -->|parallel| D[paralelo.py<br/>multiprocessing.Pool]
+    D --> W1[Worker 1<br/>DFA lexer to HTML]
+    D --> W2[Worker 2<br/>DFA lexer to HTML]
+    D --> W3[Worker N<br/>DFA lexer to HTML]
+    C --> H[Highlighted HTML]
+    W1 --> H
+    W2 --> H
+    W3 --> H
+```
+
 ## Layout
 
 ```
@@ -97,6 +115,16 @@ The speedup is well below the 16x core count, and that is the interesting part: 
 ## How the lexer works
 
 The core is a transition table where each row is a state and each column is a class of input character. Reading a character looks up the next state; when the automaton reaches an accepting state it emits a token of the matching type and restarts from the start state. Because the logic lives in the table rather than in branching code, adding or changing a token type is a matter of editing the table, which is the same idea behind real lexer generators.
+
+```mermaid
+flowchart LR
+    S[Start state] -->|read char,<br/>look up its class| N[Next state<br/>from transition table]
+    N -->|more chars| N
+    N -->|accepting state| E[Emit token,<br/>restart at Start]
+    E --> S
+```
+
+The full automaton, with every state and transition, is in [`evidencia-1-dfa-lexer/DFA_diagrama.svg`](evidencia-1-dfa-lexer/DFA_diagrama.svg).
 
 ## Authors
 
