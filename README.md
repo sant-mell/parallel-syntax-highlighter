@@ -1,5 +1,7 @@
 # Parallel Syntax Highlighter
 
+[![CI](https://github.com/sant-mell/parallel-syntax-highlighter/actions/workflows/ci.yml/badge.svg)](https://github.com/sant-mell/parallel-syntax-highlighter/actions/workflows/ci.yml)
+
 A Python syntax highlighter built from scratch on automata theory. It started as a hand-written DFA lexer that classifies Python tokens with an explicit transition table, and then grew into a batch highlighter that renders many files to HTML, with a sequential baseline and a multiprocessing version compared head to head by a benchmark.
 
 The project is split into the two course deliverables that produced it:
